@@ -1,0 +1,921 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0d">
+<title>Jewbo Council</title>
+
+<style>
+:root {
+    --bg: #0b0b0d;
+    --panel: #111114;
+    --panel2: #17171b;
+    --gold: #c9a96e;
+    --gold-light: #e6cf9e;
+    --text: #f2eee7;
+    --muted: #99969b;
+    --border: #29272a;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.7;
+}
+
+button, input, textarea { font: inherit; }
+a { color: inherit; }
+
+button:focus-visible, a:focus-visible,
+input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+}
+
+.hidden { display: none !important; }
+
+/* Entrance screen */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background:
+        radial-gradient(ellipse at center, #19160f 0%, #0b0b0d 58%);
+    transition: opacity .65s ease, visibility .65s ease;
+}
+
+#intro.exit {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-content {
+    width: min(760px, 100%);
+    text-align: center;
+    animation: appear 1s ease both;
+}
+
+.star {
+    color: var(--gold);
+    font-size: 52px;
+    line-height: 1.3;
+}
+
+.eyebrow {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+}
+
+.gold-line {
+    width: 100px;
+    height: 1px;
+    background: var(--gold);
+    opacity: .7;
+    margin: 25px auto;
+}
+
+.intro-title {
+    margin: 12px 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: normal;
+    font-size: clamp(38px, 8vw, 76px);
+    line-height: 1.15;
+    letter-spacing: .035em;
+    color: var(--gold-light);
+}
+
+.intro-subtitle {
+    color: #c4bec1;
+    font-size: 12px;
+    letter-spacing: .2em;
+}
+
+.intro-hebrew {
+    margin: 28px 0 35px;
+    font-size: 23px;
+}
+
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    padding: 15px 28px;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold-light);
+    cursor: pointer;
+    letter-spacing: .12em;
+    font-size: 12px;
+    transition: background .2s, color .2s, transform .2s;
+}
+
+.primary-btn:hover {
+    background: var(--gold);
+    color: #111;
+    transform: translateY(-2px);
+}
+
+.intro-note {
+    margin-top: 22px;
+    color: #77737a;
+    font-size: 11px;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Main website */
+
+#site { min-height: 100vh; }
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px max(5%, calc((100% - 1150px)/2));
+    background: rgba(11,11,13,.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    color: var(--gold-light);
+    font-family: Georgia, serif;
+    font-size: 18px;
+    letter-spacing: .07em;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.nav-links a {
+    color: #c1bdc1;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.lang-btn, .music-btn {
+    background: transparent;
+    color: var(--gold-light);
+    border: 1px solid #484039;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.lang-btn:hover, .music-btn:hover {
+    border-color: var(--gold);
+}
+
+.hero {
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 22px;
+    border-bottom: 1px solid var(--border);
+    background:
+        radial-gradient(ellipse at 50% 0%, #252015 0%, transparent 60%);
+}
+
+.hero .star { font-size: 39px; }
+
+.hero h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: normal;
+    font-size: clamp(40px, 7vw, 70px);
+    line-height: 1.2;
+    color: var(--gold-light);
+    margin: 16px 0;
+    letter-spacing: .025em;
+}
+
+.hero p {
+    max-width: 550px;
+    color: var(--muted);
+    margin: 0 auto 25px;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 19px;
+    text-decoration: none;
+    font-size: 12px;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    background: transparent;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.button:hover {
+    background: var(--gold);
+    color: #111;
+}
+
+.button.secondary {
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.button.secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+    background: transparent;
+}
+
+.container {
+    width: min(1050px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+.section { padding: 72px 0; }
+
+.section-heading {
+    margin-bottom: 32px;
+}
+
+.section-heading .eyebrow { margin-bottom: 8px; }
+
+.section-heading h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+    line-height: 1.25;
+    font-weight: normal;
+    margin: 0;
+}
+
+.section-heading p {
+    color: var(--muted);
+    max-width: 620px;
+    margin-top: 12px;
+}
+
+.owner-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 28px;
+    background: linear-gradient(120deg, #171511, #111114);
+    border: 1px solid #393126;
+}
+
+.owner-symbol {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 74px;
+    height: 74px;
+    border: 1px solid #655338;
+    color: var(--gold);
+    font-size: 30px;
+}
+
+.owner-card h3 {
+    color: var(--gold-light);
+    font-family: Georgia, serif;
+    font-size: 24px;
+    font-weight: normal;
+    margin: 0 0 4px;
+}
+
+.owner-card p {
+    color: var(--muted);
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.topic {
+    padding: 25px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    transition: border-color .2s, transform .2s;
+}
+
+.topic:hover {
+    border-color: #756044;
+    transform: translateY(-3px);
+}
+
+.topic-icon {
+    color: var(--gold);
+    font-size: 23px;
+}
+
+.topic h3 {
+    margin: 12px 0 7px;
+    font-weight: normal;
+    font-size: 19px;
+}
+
+.topic p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.discord-panel {
+    text-align: center;
+    padding: 48px 24px;
+    border: 1px solid #3b3325;
+    background: radial-gradient(ellipse at top, #241e14, #111114 70%);
+}
+
+.discord-panel h2 {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    font-weight: normal;
+    margin: 8px 0;
+}
+
+.discord-panel p {
+    color: var(--muted);
+    margin: 0 auto 24px;
+    max-width: 520px;
+}
+
+.discord-panel .button { margin: 4px; }
+
+.guestbook {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 30px;
+}
+
+.field {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 12px 14px;
+    color: var(--text);
+    background: #111114;
+    border: 1px solid #333137;
+    border-radius: 0;
+}
+
+.field::placeholder { color: #77727b; }
+
+textarea.field {
+    min-height: 115px;
+    resize: vertical;
+}
+
+.entries {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.entry {
+    padding: 15px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    overflow-wrap: anywhere;
+}
+
+.entry strong { color: var(--gold-light); }
+
+.entry p {
+    margin: 7px 0 0;
+    color: #c4c0c6;
+    white-space: pre-wrap;
+}
+
+.empty { color: var(--muted); font-size: 13px; }
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.stat {
+    padding: 24px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+}
+
+.stat strong {
+    display: block;
+    color: var(--gold-light);
+    font-family: Georgia, serif;
+    font-size: 32px;
+    font-weight: normal;
+}
+
+.stat span { color: var(--muted); font-size: 13px; }
+
+footer {
+    padding: 28px 20px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: #77737a;
+    font-size: 12px;
+}
+
+footer a {
+    color: var(--gold);
+    text-decoration: none;
+}
+
+[dir="rtl"] .topbar { direction: rtl; }
+[dir="rtl"] .nav-links { direction: rtl; }
+
+@media (max-width: 760px) {
+    .topbar { flex-wrap: wrap; padding: 14px 20px; }
+    .nav-links { order: 3; width: 100%; gap: 18px; flex-wrap: wrap; }
+    .grid, .guestbook { grid-template-columns: 1fr; }
+    .section { padding: 52px 0; }
+    .owner-card { align-items: flex-start; padding: 20px; gap: 15px; }
+    .owner-symbol { width: 52px; height: 52px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="song.mp3" loop preload="auto"></audio>
+
+<!-- ENTRY SCREEN -->
+<div id="intro">
+    <div class="intro-content">
+        <div class="star">✡</div>
+        <div class="gold-line"></div>
+
+        <p class="eyebrow" data-i18n="introEyebrow">A PRIVATE COMMUNITY</p>
+        <h1 class="intro-title">JEWBO COUNCIL</h1>
+        <p class="intro-subtitle" data-i18n="introSubtitle">
+            FRIENDSHIP · CULTURE · HEBREW · TRADITION
+        </p>
+
+        <div class="gold-line"></div>
+
+        <p class="intro-hebrew" dir="rtl" data-i18n="welcomeHebrew">
+            ברוכים הבאים למועצת ג׳ובו
+        </p>
+
+        <button class="primary-btn" onclick="enterSite()"
+                data-i18n="enter">
+            CLICK TO ENTER
+        </button>
+
+        <p class="intro-note" data-i18n="soundNote">
+            MUSIC WILL START WHEN YOU ENTER
+        </p>
+    </div>
+</div>
+
+<!-- MAIN WEBSITE -->
+<div id="site" class="hidden">
+
+    <header class="topbar">
+        <a class="brand" href="#home">✡ JEWBO COUNCIL</a>
+
+        <nav class="nav-links">
+            <a href="#about" data-i18n="navAbout">ABOUT</a>
+            <a href="#topics" data-i18n="navTopics">TOPICS</a>
+            <a href="#community" data-i18n="navCommunity">COMMUNITY</a>
+            <a href="#guestbook" data-i18n="navGuestbook">GUESTBOOK</a>
+        </nav>
+
+        <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">
+            עברית
+        </button>
+    </header>
+
+    <main id="home">
+
+        <section class="hero">
+            <div class="star">✡</div>
+            <p class="eyebrow" data-i18n="heroEyebrow">OUR OWN CORNER OF THE INTERNET</p>
+            <h1>Jewbo Council</h1>
+            <p data-i18n="heroText">
+                A community for friends to hang out, share interests,
+                and talk about Hebrew, Jewish culture, history, and more.
+            </p>
+
+            <div class="hero-actions">
+                <a class="button" href="https://discord.gg/XWzc9g63Kd"
+                   target="_blank" rel="noopener noreferrer"
+                   data-i18n="join">JOIN THE DISCORD ↗</a>
+
+                <a class="button secondary" href="#about"
+                   data-i18n="learnMore">GET TO KNOW US</a>
+            </div>
+        </section>
+
+        <section class="section container" id="about">
+            <div class="section-heading">
+                <p class="eyebrow" data-i18n="aboutEyebrow">THE PEOPLE BEHIND IT</p>
+                <h2 data-i18n="aboutTitle">About the Council</h2>
+                <p data-i18n="aboutText">
+                    A friend group and community space for conversation,
+                    culture, shared interests, and good company.
+                </p>
+            </div>
+
+            <div class="owner-card">
+                <div class="owner-symbol">✡</div>
+                <div>
+                    <p class="eyebrow" data-i18n="ownerLabel">COUNCIL OWNER</p>
+                    <h3>Shane</h3>
+                    <p data-i18n="ownerText">
+                        Founder and owner of the Jewbo Council.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section container" id="topics">
+            <div class="section-heading">
+                <p class="eyebrow" data-i18n="topicsEyebrow">WHAT WE TALK ABOUT</p>
+                <h2 data-i18n="topicsTitle">Council Topics</h2>
+                <p data-i18n="topicsText">
+                    A few of the things that bring our community together.
+                </p>
+            </div>
+
+            <div class="grid">
+                <article class="topic">
+                    <div class="topic-icon">א ב ג</div>
+                    <h3 data-i18n="hebrewTitle">Hebrew Language</h3>
+                    <p data-i18n="hebrewText">
+                        Words, expressions, slang, grammar, and the history
+                        of the Hebrew language.
+                    </p>
+                </article>
+
+                <article class="topic">
+                    <div class="topic-icon">✡</div>
+                    <h3 data-i18n="cultureTitle">Jewish Culture</h3>
+                    <p data-i18n="cultureText">
+                        Traditions, holidays, food, music, literature,
+                        and cultural experiences.
+                    </p>
+                </article>
+
+                <article class="topic">
+                    <div class="topic-icon">⌛</div>
+                    <h3 data-i18n="historyTitle">History & Heritage</h3>
+                    <p data-i18n="historyText">
+                        Discovering history, heritage, and the stories
+                        passed down through generations.
+                    </p>
+                </article>
+
+                <article class="topic">
+                    <div class="topic-icon">◈</div>
+                    <h3 data-i18n="generalTitle">General Hangouts</h3>
+                    <p data-i18n="generalText">
+                        Casual conversations, shared interests, and
+                        whatever the group feels like discussing.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section container" id="community">
+            <div class="discord-panel">
+                <div class="star">✡</div>
+                <p class="eyebrow" data-i18n="discordEyebrow">STAY CONNECTED</p>
+                <h2 data-i18n="discordTitle">Join the Community</h2>
+                <p data-i18n="discordText">
+                    Come hang out with the group on Discord.
+                    Join the conversation and meet the council.
+                </p>
+                <a class="button"
+                   href="https://discord.gg/XWzc9g63Kd"
+                   target="_blank" rel="noopener noreferrer"
+                   data-i18n="discordButton">OPEN OUR DISCORD ↗</a>
+            </div>
+        </section>
+
+        <section class="section container" id="guestbook">
+            <div class="section-heading">
+                <p class="eyebrow" data-i18n="guestEyebrow">LEAVE YOUR MARK</p>
+                <h2 data-i18n="guestTitle">Guestbook</h2>
+                <p data-i18n="guestText">
+                    Leave a message for the council. Entries are saved
+                    locally in this browser.
+                </p>
+            </div>
+
+            <div class="guestbook">
+                <form id="guestForm">
+                    <input class="field" id="guestName" maxlength="40"
+                           required data-placeholder="namePlaceholder"
+                           placeholder="Your name">
+
+                    <textarea class="field" id="guestMessage" maxlength="500"
+                              required data-placeholder="messagePlaceholder"
+                              placeholder="Write your message..."></textarea>
+
+                    <button class="button" type="submit"
+                            data-i18n="submit">POST MESSAGE</button>
+                    <p id="guestStatus" class="empty" aria-live="polite"></p>
+                </form>
+
+                <div>
+                    <div id="guestEntries" class="entries"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section container">
+            <div class="section-heading">
+                <p class="eyebrow" data-i18n="statsEyebrow">THE LITTLE DETAILS</p>
+                <h2 data-i18n="statsTitle">Council Statistics</h2>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <strong id="visitorCounter">000001</strong>
+                    <span data-i18n="visitorLabel">Visits on this browser</span>
+                </div>
+                <div class="stat">
+                    <strong>2026</strong>
+                    <span data-i18n="councilLabel">Jewbo Council</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>✡ JEWBO COUNCIL</p>
+        <p data-i18n="footerText">Owned by Shane · A community for friends</p>
+        <a href="https://discord.gg/XWzc9g63Kd"
+           target="_blank" rel="noopener noreferrer">DISCORD ↗</a>
+    </footer>
+</div>
+
+<script>
+const translations = {
+    en: {
+        introEyebrow: "A PRIVATE COMMUNITY",
+        introSubtitle: "FRIENDSHIP · CULTURE · HEBREW · TRADITION",
+        welcomeHebrew: "ברוכים הבאים למועצת ג׳ובו",
+        enter: "CLICK TO ENTER",
+        soundNote: "MUSIC WILL START WHEN YOU ENTER",
+        navAbout: "ABOUT",
+        navTopics: "TOPICS",
+        navCommunity: "COMMUNITY",
+        navGuestbook: "GUESTBOOK",
+        heroEyebrow: "OUR OWN CORNER OF THE INTERNET",
+        heroText: "A community for friends to hang out, share interests, and talk about Hebrew, Jewish culture, history, and more.",
+        join: "JOIN THE DISCORD ↗",
+        learnMore: "GET TO KNOW US",
+        aboutEyebrow: "THE PEOPLE BEHIND IT",
+        aboutTitle: "About the Council",
+        aboutText: "A friend group and community space for conversation, culture, shared interests, and good company.",
+        ownerLabel: "COUNCIL OWNER",
+        ownerText: "Founder and owner of the Jewbo Council.",
+        topicsEyebrow: "WHAT WE TALK ABOUT",
+        topicsTitle: "Council Topics",
+        topicsText: "A few of the things that bring our community together.",
+        hebrewTitle: "Hebrew Language",
+        hebrewText: "Words, expressions, slang, grammar, and the history of the Hebrew language.",
+        cultureTitle: "Jewish Culture",
+        cultureText: "Traditions, holidays, food, music, literature, and cultural experiences.",
+        historyTitle: "History & Heritage",
+        historyText: "Discovering history, heritage, and the stories passed down through generations.",
+        generalTitle: "General Hangouts",
+        generalText: "Casual conversations, shared interests, and whatever the group feels like discussing.",
+        discordEyebrow: "STAY CONNECTED",
+        discordTitle: "Join the Community",
+        discordText: "Come hang out with the group on Discord. Join the conversation and meet the council.",
+        discordButton: "OPEN OUR DISCORD ↗",
+        guestEyebrow: "LEAVE YOUR MARK",
+        guestTitle: "Guestbook",
+        guestText: "Leave a message for the council. Entries are saved locally in this browser.",
+        namePlaceholder: "Your name",
+        messagePlaceholder: "Write your message...",
+        submit: "POST MESSAGE",
+        guestEmpty: "No messages yet. Be the first to leave one.",
+        guestSuccess: "Your message was saved in this browser.",
+        statsEyebrow: "THE LITTLE DETAILS",
+        statsTitle: "Council Statistics",
+        visitorLabel: "Visits on this browser",
+        councilLabel: "Jewbo Council",
+        footerText: "Owned by Shane · A community for friends",
+        languageButton: "עברית"
+    },
+    he: {
+        introEyebrow: "קהילה פרטית",
+        introSubtitle: "חברות · תרבות · עברית · מסורת",
+        welcomeHebrew: "ברוכים הבאים למועצת ג׳ובו",
+        enter: "לחצו כדי להיכנס",
+        soundNote: "המוזיקה תתחיל כשתיכנסו",
+        navAbout: "על המועצה",
+        navTopics: "נושאים",
+        navCommunity: "קהילה",
+        navGuestbook: "ספר אורחים",
+        heroEyebrow: "הפינה שלנו באינטרנט",
+        heroText: "קהילה לחברים, לשיחות, לתחומי עניין משותפים ולדיונים על עברית, תרבות יהודית, היסטוריה ועוד.",
+        join: "הצטרפו לדיסקורד ↗",
+        learnMore: "הכירו אותנו",
+        aboutEyebrow: "האנשים שמאחורי המועצה",
+        aboutTitle: "על המועצה",
+        aboutText: "קבוצת חברים ומקום לשיחות, תרבות, תחומי עניין משותפים וחברה טובה.",
+        ownerLabel: "בעל המועצה",
+        ownerText: "המייסד והבעלים של מועצת ג׳ובו.",
+        topicsEyebrow: "על מה מדברים",
+        topicsTitle: "נושאי המועצה",
+        topicsText: "כמה מהנושאים שמחברים בין חברי הקהילה.",
+        hebrewTitle: "השפה העברית",
+        hebrewText: "מילים, ביטויים, סלנג, דקדוק וההיסטוריה של השפה העברית.",
+        cultureTitle: "תרבות יהודית",
+        cultureText: "מסורות, חגים, אוכל, מוזיקה, ספרות וחוויות תרבותיות.",
+        historyTitle: "היסטוריה ומורשת",
+        historyText: "היכרות עם ההיסטוריה, המורשת והסיפורים שעוברים מדור לדור.",
+        generalTitle: "מפגשים ושיחות",
+        generalText: "שיחות רגילות, תחומי עניין משותפים וכל מה שהקבוצה רוצה לדבר עליו.",
+        discordEyebrow: "נשארים בקשר",
+        discordTitle: "הצטרפו לקהילה",
+        discordText: "בואו לבלות עם הקבוצה בדיסקורד, להצטרף לשיחות ולהכיר את חברי המועצה.",
+        discordButton: "למעבר לדיסקורד ↗",
+        guestEyebrow: "השאירו חותם",
+        guestTitle: "ספר אורחים",
+        guestText: "השאירו הודעה למועצה. ההודעות נשמרות בדפדפן הזה בלבד.",
+        namePlaceholder: "השם שלכם",
+        messagePlaceholder: "כתבו את ההודעה שלכם...",
+        submit: "פרסום הודעה",
+        guestEmpty: "אין עדיין הודעות. היו הראשונים לכתוב.",
+        guestSuccess: "ההודעה נשמרה בדפדפן הזה.",
+        statsEyebrow: "הפרטים הקטנים",
+        statsTitle: "סטטיסטיקות המועצה",
+        visitorLabel: "ביקורים בדפדפן הזה",
+        councilLabel: "מועצת ג׳ובו",
+        footerText: "בבעלות שיין · קהילה לחברים",
+        languageButton: "English"
+    }
+};
+
+let language = "en";
+
+function setLanguage(next) {
+    language = next;
+    const t = translations[language];
+
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === "he" ? "rtl" : "ltr";
+
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.dataset.i18n;
+        if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    document.querySelectorAll("[data-placeholder]").forEach(el => {
+        const key = el.dataset.placeholder;
+        if (t[key] !== undefined) el.placeholder = t[key];
+    });
+
+    document.getElementById("langBtn").textContent = t.languageButton;
+    renderGuestbook();
+}
+
+function toggleLanguage() {
+    setLanguage(language === "en" ? "he" : "en");
+}
+
+async function enterSite() {
+    document.getElementById("intro").classList.add("exit");
+    document.getElementById("site").classList.remove("hidden");
+
+    const music = document.getElementById("music");
+    music.volume = 0.45;
+
+    try {
+        await music.play();
+    } catch (error) {
+        console.warn("Music could not start. Check that song.mp3 exists.", error);
+    }
+}
+
+// Browser-local visitor count; not a global website analytics counter.
+const visitsKey = "jewboCouncilVisits";
+let visits = Number(localStorage.getItem(visitsKey) || "0") + 1;
+localStorage.setItem(visitsKey, String(visits));
+document.getElementById("visitorCounter").textContent =
+    String(visits).padStart(6, "0");
+
+// Guestbook saved only in this browser.
+const guestbookKey = "jewboCouncilGuestbook";
+
+function getEntries() {
+    try {
+        return JSON.parse(localStorage.getItem(guestbookKey) || "[]");
+    } catch {
+        return [];
+    }
+}
+
+function renderGuestbook() {
+    const entries = getEntries();
+    const container = document.getElementById("guestEntries");
+    container.replaceChildren();
+
+    if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty";
+        empty.textContent = translations[language].guestEmpty;
+        container.appendChild(empty);
+        return;
+    }
+
+    entries.slice().reverse().forEach(item => {
+        const article = document.createElement("article");
+        article.className = "entry";
+
+        const name = document.createElement("strong");
+        name.textContent = item.name;
+
+        const message = document.createElement("p");
+        message.textContent = item.message;
+
+        article.append(name, message);
+        container.appendChild(article);
+    });
+}
+
+document.getElementById("guestForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const name = document.getElementById("guestName").value.trim();
+    const message = document.getElementById("guestMessage").value.trim();
+
+    if (!name || !message) return;
+
+    const entries = getEntries();
+    entries.push({ name, message, date: Date.now() });
+
+    try {
+        localStorage.setItem(guestbookKey, JSON.stringify(entries));
+        document.getElementById("guestStatus").textContent =
+            translations[language].guestSuccess;
+        document.getElementById("guestForm").reset();
+        renderGuestbook();
+    } catch {
+        document.getElementById("guestStatus").textContent =
+            "Could not save. Browser storage may be full or disabled.";
+    }
+});
+
+renderGuestbook();
+setLanguage("en");
+</script>
+</body>
+</html>
